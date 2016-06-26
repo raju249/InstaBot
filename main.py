@@ -53,19 +53,29 @@ def search_user(username):
 	sleep()
 	username_input.send_keys(Keys.RETURN)
 
+def load_user_profile_and_logout():
+	driver.find_element_by_link_text('Profile').click()
+	sleep()
+	driver.find_element_by_class_name('_fcwm8').click()
+	driver.find_element_by_class_name("_4y3e3").click()
+
 # Main function a.k.a entry point of this bot
-def main():
+def main(username):
 	for username in USERNAME_AND_PASSWORD_DICT.keys():
 		login_user(username,USERNAME_AND_PASSWORD_DICT[username])
 		print "Logged in as " + username
 		sleep()
-		search_user("scorebuzz.in")
+		search_user()
 		sleep()
 		find_click_follow_button()
+		sleep()
+		load_user_profile_and_logout()
+		sleep()
 
 	print "Done"
 
 if __name__ == "__main__":
+	print "Enter username: "
 	main()
 
 
