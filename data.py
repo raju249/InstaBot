@@ -1,0 +1,1 @@
+INSTA_LOGIN_URL = "https://www.instagram.com/accounts/login/"
