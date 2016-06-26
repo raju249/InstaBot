@@ -1,5 +1,6 @@
 from selenium import webdriver
 import time
+import sys
 from selenium.webdriver.common.keys import Keys
 from data import INSTA_LOGIN_URL
 from data import USERNAME_AND_PASSWORD_DICT
@@ -37,22 +38,27 @@ def login_user(username,password):
 	find_password_field(login_form).send_keys(password)
 	click_login_button(login_form)
 
+# Find search input box
 def find_search_input():
 	return driver.find_element_by_class_name('_9x5sw')
 
+# Find and click follow button
 def find_click_follow_button():
 	follow = driver.find_element_by_class_name('_aj7mu')
 	follow.click()
 
+# Sleep for 2 seconds
 def sleep():
 	time.sleep(2)
 
+# Search given username
 def search_user(username):
 	username_input = find_search_input()
 	username_input.send_keys(username)
 	sleep()
 	username_input.send_keys(Keys.RETURN)
 
+# Load user Profile to logout
 def load_user_profile_and_logout():
 	driver.find_element_by_link_text('Profile').click()
 	sleep()
@@ -61,24 +67,23 @@ def load_user_profile_and_logout():
 
 # Main function a.k.a entry point of this bot
 def main(username):
-	for username in USERNAME_AND_PASSWORD_DICT.keys():
-		login_user(username,USERNAME_AND_PASSWORD_DICT[username])
-		print "Logged in as " + username
+	for user in USERNAME_AND_PASSWORD_DICT.keys():
+		login_user(user,USERNAME_AND_PASSWORD_DICT[user])
+		print "Logged in as " + user
 		sleep()
-		search_user()
+		search_user(username)
 		sleep()
 		find_click_follow_button()
 		sleep()
 		load_user_profile_and_logout()
 		sleep()
 
-	print "Done"
+	print "Added followers to " + username
 
+# Run at start
 if __name__ == "__main__":
-	print "Enter username: "
-	main()
-
-
-
-
-
+	while True:
+		user = raw_input("Enter username (q to quit): ")
+		if user.startswith("q"):
+			sys.exit(0)
+		main(user)
