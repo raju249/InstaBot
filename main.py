@@ -1,4 +1,5 @@
 from selenium import webdriver
+import time
 from selenium.webdriver.common.keys import Keys
 from data import INSTA_LOGIN_URL
 from data import USERNAME_AND_PASSWORD_DICT
@@ -36,11 +37,22 @@ def login_user(username,password):
 	find_password_field(login_form).send_keys(password)
 	click_login_button(login_form)
 
+def find_search_input():
+	
+	return driver.find_element_by_class_name('_qy55y')
+
+def search_user(username):
+	username_input = find_search_input()
+	username_input.send_keys(username)
+	username_input.send_keys(Keys.RETURN)
+
 # Main function a.k.a entry point of this bot
 def main():
 	for username in USERNAME_AND_PASSWORD_DICT.keys():
 		login_user(username,USERNAME_AND_PASSWORD_DICT[username])
 		print "Logged in as " + username
+		time.sleep(2)
+		search_user("scorebuzz.in")
 	print "Done"
 
 if __name__ == "__main__":
